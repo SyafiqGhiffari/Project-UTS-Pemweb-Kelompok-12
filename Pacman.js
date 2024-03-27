@@ -1,63 +1,80 @@
-import { OBJECT_TYPE, DIRECTIONS } from './setup';
-
-class Pacman {
-  constructor(speed, startPos) {
-    this.pos = startPos;
-    this.speed = speed;
-    this.dir = null;
-    this.timer = 0;
-    this.powerPill = false;
-    this.rotation = true;
+export const GRID_SIZE = 20;
+export const CELL_SIZE = 20;
+export const DIRECTIONS = {
+  ArrowLeft: {
+    code: 37,
+    movement: -1,
+    rotation: 180
+  },
+  ArrowUp: {
+    code: 38,
+    movement: -GRID_SIZE,
+    rotation: 270
+  },
+  ArrowRight: {
+    code: 39,
+    movement: 1,
+    rotation: 0
+  },
+  ArrowDown: {
+    code: 40,
+    movement: GRID_SIZE,
+    rotation: 90
   }
+};
 
-  shouldMove() {
-    // Don't move before a key is pressed
-    if (!this.dir) return;
+export const OBJECT_TYPE = {
+  BLANK: 'blank',
+  WALL: 'wall',
+  DOT: 'dot',
+  BLINKY: 'blinky',
+  PINKY: 'pinky',
+  INKY: 'inky',
+  CLYDE: 'clyde',
+  PILL: 'pill',
+  PACMAN: 'pacman',
+  GHOST: 'ghost',
+  SCARED: 'scared',
+  GHOSTLAIR: 'lair'
+};
 
-    if (this.timer === this.speed) {
-      this.timer = 0;
-      return true;
-    }
-    this.timer++;
-  }
+// Lookup array for classes
+export const CLASS_LIST = [
+  OBJECT_TYPE.BLANK,
+  OBJECT_TYPE.WALL,
+  OBJECT_TYPE.DOT,
+  OBJECT_TYPE.BLINKY,
+  OBJECT_TYPE.PINKY,
+  OBJECT_TYPE.INKY,
+  OBJECT_TYPE.CLYDE,
+  OBJECT_TYPE.PILL,
+  OBJECT_TYPE.PACMAN,
+  OBJECT_TYPE.GHOSTLAIR
+];
 
-  getNextMove(objectExist) {
-    let nextMovePos = this.pos + this.dir.movement;
-    // Do we collide with a wall?
-    if (
-      objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
-      objectExist(nextMovePos, OBJECT_TYPE.GHOSTLAIR)
-    ) {
-      nextMovePos = this.pos;
-    }
-
-    return { nextMovePos, direction: this.dir };
-  }
-
-  makeMove() {
-    const classesToRemove = [OBJECT_TYPE.PACMAN];
-    const classesToAdd = [OBJECT_TYPE.PACMAN];
-
-    return { classesToRemove, classesToAdd };
-  }
-
-  setNewPos(nextMovePos) {
-    this.pos = nextMovePos;
-  }
-
-  handleKeyInput = (e, objectExist) => {
-    let dir;
-
-    if (e.keyCode >= 37 && e.keyCode <= 40) {
-      dir = DIRECTIONS[e.key];
-    } else {
-      return;
-    }
-
-    const nextMovePos = this.pos + dir.movement;
-    if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) return;
-    this.dir = dir;
-  };
-}
-
-export default Pacman;
+// prettier-ignore
+export const LEVEL = [
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1,
+  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1,
+  1, 7, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 7, 1,
+  1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,
+  1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1,
+  1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1,
+  1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1,
+  0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0,
+  0, 0, 0, 1, 2, 1, 2, 1, 9, 9, 9, 9, 1, 2, 1, 2, 1, 0, 0, 0,
+  1, 1, 1, 1, 2, 1, 2, 1, 9, 9, 9, 9, 1, 2, 1, 2, 1, 1, 1, 1, 
+  1, 0, 0, 0, 2, 2, 2, 1, 9, 9, 9, 9, 1, 2, 2, 2, 0, 0, 0, 1, 
+  1, 1, 1, 1, 2, 1, 2, 1, 9, 9, 9, 9, 1, 2, 1, 2, 1, 1, 1, 1, 
+  0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0,
+  0, 0, 0, 1, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 1, 2, 1, 0, 0, 0,
+  1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1,
+  1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1,
+  1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1,
+  1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,
+  1, 7, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 7, 1,
+  1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1,
+  1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+];
