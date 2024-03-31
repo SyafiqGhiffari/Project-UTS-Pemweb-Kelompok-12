@@ -13,13 +13,14 @@ body {
 }
 
 #shim {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Fredoka One', cursive;
   position: absolute;
   visibility: hidden
 }
 
 h1 {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Fredoka One', cursive;
+  font-size: 50px;
   text-align: center;
   color: yellow;
 }
