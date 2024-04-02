@@ -549,9 +549,9 @@ function drawWall(ctx) {
 
     var i, j, p, line;
     
-    ctx.strokeStyle = "#0000FF";
-    ctx.lineWidth   = 5;
-    ctx.lineCap     = "round";
+    ctx.strokeStyle = "#E9A89B";
+    ctx.lineWidth   = 8;
+    ctx.lineCap     = "straight";
     
     for (i = 0; i < Pacman.WALLS.length; i += 1) {
         line = Pacman.WALLS[i];
@@ -765,7 +765,7 @@ var PACMAN = (function () {
 var state        = WAITING,
     audio        = null,
     ghosts       = [],
-    ghostSpecs   = ["#00FFDE", "#FF0000", "#FFB8DE", "#FFB847"],
+    ghostSpecs   = ["#00FFDE", "#FF0000", "#FFB8DE", "#FFB847", "#A52A2A"],
     eatenCount   = 0,
     level        = 0,
     tick         = 0,
